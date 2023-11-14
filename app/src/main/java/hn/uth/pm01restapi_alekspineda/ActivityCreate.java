@@ -19,14 +19,27 @@ import android.provider.MediaStore;
 import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import hn.uth.pm01restapi_alekspineda.Config.Personas;
+import hn.uth.pm01restapi_alekspineda.Config.ResApiMethods;
 
 public class ActivityCreate extends AppCompatActivity {
 
@@ -37,7 +50,9 @@ public class ActivityCreate extends AppCompatActivity {
     Button btntakefoto, btncreate;
     String currentPhotoPath;
 
+    private RequestQueue requestQueue;
 
+    EditText nombres, apellidos, correo, fecha;
 
 
     @Override
@@ -48,6 +63,11 @@ public class ActivityCreate extends AppCompatActivity {
         imageView = (ImageView) findViewById(R.id.imageView);
         btntakefoto = (Button) findViewById(R.id.btntakefoto);
         btncreate = (Button) findViewById(R.id.btncreate);
+
+        nombres = (EditText) findViewById(R.id.nombres);
+        apellidos = (EditText) findViewById(R.id.apellidos);
+        correo = (EditText) findViewById(R.id.correo);
+        fecha = (EditText) findViewById(R.id.fecha);
 
         btntakefoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,7 +87,55 @@ public class ActivityCreate extends AppCompatActivity {
     }
 
     private void SendData() {
-        ConvertImageBase64(currentPhotoPath);
+
+        requestQueue = Volley.newRequestQueue(this);
+        Personas person = new Personas();
+        person.setNombres(nombres.getText().toString());
+        person.setApellidos(apellidos.getText().toString());
+        person.setCorreo(correo.getText().toString());
+        person.setFechanac(fecha.getText().toString());
+
+        person.setFoto(ConvertImageBase64(currentPhotoPath));
+
+        JSONObject jsonperson = new JSONObject();
+
+        try {
+            jsonperson.put("nombres", person.getNombres());
+            jsonperson.put("apellidos", person.getApellidos());
+            jsonperson.put("correo", person.getCorreo());
+            jsonperson.put("fechanac", person.getFechanac());
+            jsonperson.put("foto", person.getFoto());
+
+        }
+        catch (Exception ex){
+            ex.printStackTrace();
+        }
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST,
+                ResApiMethods.EndpointPost, jsonperson, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+                try {
+                    String mensaje = response.getString("mesaage");
+                    Toast.makeText(getApplicationContext(), mensaje,Toast.LENGTH_LONG).show();
+
+                }
+                catch (Exception ex){
+                    ex.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        }
+        );
+
+        requestQueue.add(request);
+
+
     }
 
     private void PermisosCamera() {

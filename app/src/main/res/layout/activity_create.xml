@@ -25,7 +25,8 @@
 
     <EditText
         android:id="@+id/nombres"
-        android:layout_width="match_parent"
+        android:layout_gravity="center"
+        android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:ems="10"
         android:layout_marginTop="30dp"
@@ -34,7 +35,8 @@
 
     <EditText
         android:id="@+id/apellidos"
-        android:layout_width="match_parent"
+        android:layout_gravity="center"
+        android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:ems="10"
         android:layout_marginTop="10dp"
@@ -43,7 +45,8 @@
 
     <EditText
         android:id="@+id/correo"
-        android:layout_width="match_parent"
+        android:layout_gravity="center"
+        android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:ems="10"
         android:layout_marginTop="10dp"
@@ -52,12 +55,14 @@
 
     <EditText
         android:id="@+id/fecha"
-        android:layout_width="match_parent"
+        android:layout_gravity="center"
+        android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:ems="10"
         android:layout_marginTop="10dp"
         android:hint="Ingrese la fecha de nacimiento:"
         android:inputType="date" />
+
 
     <Button
         android:id="@+id/btncreate"
