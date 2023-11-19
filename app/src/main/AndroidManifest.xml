@@ -46,7 +46,7 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".ActivityCreate"
+            android:name=".ActivityList"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -55,28 +55,26 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ActivityListJS"
+            android:name=".ActivityCreate"
             android:exported="true">
 
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".ActivityListJS"
             android:exported="true"></activity>
+        <activity
+            android:name=".MainActivity"
+            android:exported="true" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="hn.uth.pm01restapi_alekspineda.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
-
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
-
         </provider>
-
     </application>
-
-
 
 </manifest>
